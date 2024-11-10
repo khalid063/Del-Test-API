@@ -75,6 +75,14 @@ def register_user(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         return Response({"message": "GET request for register_user endpoint."})
+    
+
+# ------------------------------- get "Registrar User List" ------------------------------///
+@api_view(['GET'])
+def get_registrar_users_list(request):
+    customUserList = CustomUser.objects.all()
+    serializer = RegistrationSerializer(customUserList, many=True)
+    return Response(serializer.data)
 
 # @api_view(['POST'])
 # def register_user(request):
