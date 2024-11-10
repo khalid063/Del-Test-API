@@ -1,15 +1,18 @@
 from rest_framework import serializers # type: ignore
 from rest_framework.response import Response # type: ignore
-from.models import CustomUser, User
+from.models import User, CustomUser
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = '__all__'  # Adjust as needed
+
 
 
 ## Registration of New User with Password "Serializer"
 class RegistrationSerializer(serializers.ModelSerializer):
+   
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'password', 'phone_number', 'name']

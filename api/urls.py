@@ -1,33 +1,10 @@
 from django.urls import path
-from .views import (
-    get_user, 
-    register_user,
-    login_user,
-)
+from .views import get_users, login_user, register_user
 
 urlpatterns = [
-    path('users/', get_user, name='get_user'),  # Add comma here
-    path('register/', register_user, name='register_user'),  # User Registration url
     path('login/', login_user, name='login_user'),
+    path('users/', get_users, name='get_users'),
+    #path('users/', get_user, name='get_user'),               # It is a Test API 
+    path('register', register_user, name='register_user'),         # User Registration url
+    # path('login/', login_user, name='login_user'),           # User Login API url
 ]
-
-
-
-
-
-
-# from django.urls import path # type: ignore
-# from .views import (
-#     get_user,
-#     register_user,
-# )
-
-# # urlpatterns = [
-# #     path('users/', get_user, name='get_user')
-# #     path('register/', register_user, name='register_user'),         # User Registration url
-# # ]
-
-# urlpatterns = [
-#     path('users/', get_user, name='get_user')   # Missing comma here
-#     path('register/', register_user, name='register_user'),  # User Registration url
-# ]
