@@ -10,6 +10,9 @@ from .serializer import (
 from rest_framework import status # type: ignore          #*** very importent
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from django.contrib.auth import authenticate # type: ignore
+from rest_framework.authtoken.models import Token  # type: ignore # Correct import
+
 # Create your views here.
 # @api_view(['GET'])
 # def get_user(request):
@@ -45,3 +48,27 @@ def register_user(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# ///---------------------------------------------- Login API for User ---------------------------------------///
+@api_view(['POST'])
+def login_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    user = authenticate(username=username, password=password)
+    
+    if user is not None:
+        # Get or create the token for the user
+        token, created = Token.objects.get_or_create(user=user)
+        
+        # Prepare the response data with user profile and token
+        user_data = {
+            'username': user.username,
+            'name': user.name,
+            'phone_number': user.phone_number,
+            'token': token.key,
+        }
+        
+        return Response(user_data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
